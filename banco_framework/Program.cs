@@ -9,6 +9,7 @@ internal class Program
         Console.WriteLine("Por favor, identifique-se");
         Console.WriteLine("");
         var pessoa = Identificacao();
+        ExibirMenu(pessoa.Nome);
     }
 
     static Pessoa Identificacao()
@@ -24,10 +25,33 @@ internal class Program
         Console.WriteLine("Seu CPF:");
         pessoa.Cpf = Console.ReadLine();
         Console.Clear();
-
-        Console.WriteLine($"Como posso ajudar {pessoa.Nome}?");
-        Console.ReadKey();
         
         return pessoa;
+    }
+    private static void ExibirMenu(string nome)
+    {
+        Console.WriteLine($"Como posso ajudar {nome}?");
+        Console.WriteLine($"1 - Depósito");
+        Console.WriteLine($"2 - Saque");
+        Console.WriteLine($"3 - Sair");
+        Console.WriteLine($"----------");
+        Console.WriteLine($"Selecione uma opção:");
+        var selecao = Console.ReadKey();
+        Console.WriteLine();
+
+        switch (selecao.KeyChar)
+        {
+            case '1':
+                Console.WriteLine($"Depósito");
+                break;
+            case '2':
+                Console.WriteLine($"Depósito");
+                break;
+            case '3':
+                break;
+            default:
+                ExibirMenu(nome);
+                break;
+        }
     }
 }
