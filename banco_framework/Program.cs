@@ -45,7 +45,7 @@ internal class Program
                 Console.WriteLine($"Depósito");
                 break;
             case '2':
-                Console.WriteLine($"Depósito");
+                Console.WriteLine($"Saque");
                 break;
             case '3':
                 break;
