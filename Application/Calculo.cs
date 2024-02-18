@@ -1,10 +1,16 @@
 ﻿namespace Application
 {
-    public class Calculo
+    public static class Calculo
     {
-        public float Soma(float n1, float n2)
+        public static float Soma(float valor1, float valor2)
         {
-            return n1 + n2;
+            return valor1 + valor2;
+        }
+
+        public static float Subtracao(float valor1, float valor2)
+        {
+            return valor1 - valor2;
+
         }
     }
 }
