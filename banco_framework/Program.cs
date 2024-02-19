@@ -47,7 +47,6 @@ internal class Program
         return cliente;
     }
 
-
     private static void ExibirMenu(Cliente cliente)
     {
         Console.WriteLine($"Como posso ajudar {cliente.Nome}?");
@@ -98,6 +97,7 @@ internal class Program
         float valorDeposito = float.Parse(string.IsNullOrEmpty(input) ? ObterInputValido("Valor de depósito") : input);
         cliente.Saldo = Calculo.Soma(cliente.Saldo, valorDeposito);
     }
+    
     private static string ObterInputValido(string NomeDoDadoAObter)
     {
         string? input;
