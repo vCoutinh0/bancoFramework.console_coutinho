@@ -1,113 +1,132 @@
 ﻿using Application;
+using Domain.Interfaces;
 using Domain.Model;
-
+using Microsoft.Extensions.DependencyInjection;
+using Application.Properties;
 internal class Program
 {
+    private readonly IClienteService _clienteService;
+
+    public Program(IClienteService clienteService)
+    {
+        _clienteService = clienteService;
+    }
+
     private static void Main(string[] args)
     {
-        Console.Clear();
-        Console.WriteLine("Seja bem vindo ao banco Framework");
-        Console.WriteLine("Por favor, identifique-se");
-        Console.WriteLine("");
-        var cliente = Identificacao();
-        ExibirMenu(cliente);
+        var serviceProvider = new ServiceCollection()
+            .AddScoped<IClienteService, ClienteService>()
+            .AddScoped<ICalculo, Calculo>()
+            .AddTransient<Program>()
+            .BuildServiceProvider();
+
+        var program = serviceProvider.GetService<Program>();
+        program.Run();
     }
 
-    private static Cliente Identificacao()
+    public void Run()
     {
-        string id, nome, cpf, saldo;
-        string? input;
-
-        Console.WriteLine("Seu número de identificação:");
-        input = Console.ReadLine();
-        id = string.IsNullOrEmpty(input) ? ObterInputValido("Número de identificação") : input;
-
-        Console.WriteLine("Seu nome:");
-        input = Console.ReadLine();
-        nome = string.IsNullOrEmpty(input) ? ObterInputValido("Nome") : input;
-
-        Console.WriteLine("Seu CPF:");
-        input = Console.ReadLine();
-        cpf = string.IsNullOrEmpty(input) ? ObterInputValido("CPF") : input;
-
-        Console.WriteLine("Seu saldo:");
-        input = Console.ReadLine();
-        saldo = string.IsNullOrEmpty(input) ? ObterInputValido("Saldo") : input;
-
-        Console.Clear();
-
-        var cliente = new Cliente()
-        {
-            Id = int.Parse(id),
-            Nome = nome,
-            Cpf = cpf,
-            Saldo = float.Parse(saldo)
-        };
-
-        return cliente;
+        ImprimeMensagemBoasVindas();
+        FluxoMenu(new Cliente());
     }
 
-    private static void ExibirMenu(Cliente cliente)
+    private void FluxoMenu(Cliente cliente)
     {
-        Console.WriteLine($"Como posso ajudar {cliente.Nome}?");
-        Console.WriteLine($"1 - Depósito");
-        Console.WriteLine($"2 - Saque");
-        Console.WriteLine($"3 - Sair");
-        Console.WriteLine($"----------");
-        Console.WriteLine($"Selecione uma opção:");
+        ImprimeMenu(cliente.Nome);
+
         var selecao = Console.ReadKey();
-        Console.WriteLine();
 
         switch (selecao.KeyChar)
         {
             case '1':
-                Console.Clear();
-                Depositar(cliente);
-                Console.Clear();
-                Console.WriteLine($"Saldo atual é: {cliente.Saldo}");
-                ExibirMenu(cliente);
+                OperacaoDeposito(cliente);
                 break;
             case '2':
-                Console.Clear();
-                Sacar(cliente);
-                Console.Clear();
-                Console.WriteLine($"Saldo atual é: {cliente.Saldo}");
-                ExibirMenu(cliente);
+                OperacaoSaque(cliente);
                 break;
             case '3':
                 break;
             default:
-                ExibirMenu(cliente);
+                FluxoMenu(cliente);
                 break;
         }
     }
 
-    private static void Sacar(Cliente cliente)
+    private void OperacaoSaque(Cliente cliente)
     {
-        Console.WriteLine($"Digite o valor:");
-        string? input = Console.ReadLine();
-        float valorSaque = float.Parse(string.IsNullOrEmpty(input) ? ObterInputValido("Valor de saque") : input);
-        cliente.Saldo = Calculo.Subtracao(cliente.Saldo, valorSaque);
-    }
+        Console.Clear();
 
-    private static void Depositar(Cliente cliente)
-    {
-        Console.WriteLine($"Digite o valor:");
-        string? input = Console.ReadLine();
-        float valorDeposito = float.Parse(string.IsNullOrEmpty(input) ? ObterInputValido("Valor de depósito") : input);
-        cliente.Saldo = Calculo.Soma(cliente.Saldo, valorDeposito);
-    }
-    
-    private static string ObterInputValido(string NomeDoDadoAObter)
-    {
-        string? input;
-
-        do
+        try
         {
-            Console.WriteLine(NomeDoDadoAObter + " inválido. Informe-o corretamente:");
-            input = Console.ReadLine();
-        } while (string.IsNullOrEmpty(input));
+            _clienteService.Sacar(cliente);
+            Console.Clear();
+            Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo));
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message + " Tente novamente.");
+            Thread.Sleep(1500);
+            OperacaoSaque(cliente);
+        }
+        catch (InvalidOperationException ex)
+        {
+            Console.WriteLine(ex.Message);
+            Console.WriteLine($"Saldo atual: {cliente.Saldo}.");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(Messages.ErroInesperado);
+        }
+        finally
+        {
+            Thread.Sleep(2000);
+            FluxoMenu(cliente);
+        }
 
-        return input;
+    }
+
+    private void OperacaoDeposito(Cliente cliente)
+    {
+        Console.Clear();
+
+        try
+        {
+            _clienteService.Depositar(cliente);
+            Console.Clear();
+            Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo));
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine(ex.Message + " Tente novamente.");
+            Thread.Sleep(1500);
+            OperacaoSaque(cliente);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(Messages.ErroInesperado);
+        }
+        finally
+        {
+            Thread.Sleep(1500);
+            FluxoMenu(cliente);
+        }
+
+    }
+
+    private void ImprimeMensagemBoasVindas()
+    {
+        Console.Clear();
+        Console.WriteLine("Seja bem vindo ao banco Framework!");
+        Console.WriteLine("Por favor, preencha as informações pedidas abaixo. \n");
+    }
+    private void ImprimeMenu(string nomeCliente)
+    {
+        Console.Clear();
+        Console.WriteLine($"Como posso ajudar {nomeCliente}?");
+        Console.WriteLine($"1 - Depósito");
+        Console.WriteLine($"2 - Saque");
+        Console.WriteLine($"3 - Sair");
+        Console.WriteLine($"----------");
+        Console.WriteLine($"Selecione uma opção:\t");
     }
 }

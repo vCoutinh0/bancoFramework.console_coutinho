@@ -1,13 +1,15 @@
-﻿namespace Application
+﻿using Domain.Interfaces;
+
+namespace Application
 {
-    public static class Calculo
+    public class Calculo : ICalculo
     {
-        public static float Soma(float valor1, float valor2)
+        public decimal Soma(decimal valor1, decimal valor2)
         {
             return valor1 + valor2;
         }
 
-        public static float Subtracao(float valor1, float valor2)
+        public decimal Subtracao(decimal valor1, decimal valor2)
         {
             return valor1 - valor2;
         }
