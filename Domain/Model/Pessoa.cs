@@ -10,7 +10,7 @@
         {
             Id = ObterInputInt("Número de identificação");
             Nome = ObterInputString("Nome");
-            Cpf = ObterInputString("CPF");
+            Cpf = ObterInputCpf();
         }
     }
 }

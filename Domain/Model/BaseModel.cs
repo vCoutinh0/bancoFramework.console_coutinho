@@ -1,4 +1,5 @@
-﻿using Domain.Extensions;
+﻿using CpfCnpjLibrary;
+using Domain.Extensions;
 
 namespace Domain.Model
 {
@@ -16,6 +17,19 @@ namespace Domain.Model
             Console.WriteLine("Campo inválido. Informe-o novamente.");
 
             return ObterInputString(NomeInput);
+        }
+
+        protected string ObterInputCpf()
+        {
+            Console.WriteLine("CPF: ");
+            var input = Console.ReadLine();
+
+            if (Cpf.Validar(input))
+                return input!;
+
+            Console.WriteLine("Campo inválido. Informe-o novamente.");
+
+            return ObterInputCpf();
         }
 
         protected int ObterInputInt(string NomeInput)
