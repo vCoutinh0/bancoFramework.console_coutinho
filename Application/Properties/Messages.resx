@@ -117,8 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AperteQualquerTecla" xml:space="preserve">
+    <value> Aperte qualquer tecla para tentar novamente.</value>
+  </data>
+  <data name="AperteQualquerTeclaMenu" xml:space="preserve">
+    <value>Aperte qualquer tecla para voltar ao menu de opções.</value>
+  </data>
   <data name="ErroInesperado" xml:space="preserve">
-    <value>Erro inesperado. Tente novamente mais tarde</value>
+    <value>Erro inesperado. Tente novamente mais tarde.</value>
   </data>
   <data name="OperacaoConcluida" xml:space="preserve">
     <value>Operação concluida. Saldo atual: {0}.</value>

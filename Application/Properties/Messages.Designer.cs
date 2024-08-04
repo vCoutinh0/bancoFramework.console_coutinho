@@ -61,7 +61,25 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Erro inesperado. Tente novamente mais tarde.
+        ///   Consulta uma cadeia de caracteres localizada semelhante a  Aperte qualquer tecla para tentar novamente..
+        /// </summary>
+        public static string AperteQualquerTecla {
+            get {
+                return ResourceManager.GetString("AperteQualquerTecla", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Aperte qualquer tecla para voltar ao menu de opções..
+        /// </summary>
+        public static string AperteQualquerTeclaMenu {
+            get {
+                return ResourceManager.GetString("AperteQualquerTeclaMenu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Erro inesperado. Tente novamente mais tarde..
         /// </summary>
         public static string ErroInesperado {
             get {

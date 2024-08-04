@@ -61,25 +61,30 @@ internal class Program
             _clienteService.Sacar(cliente);
             Console.Clear();
             Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo));
+            Thread.Sleep(1500);
         }
         catch (ArgumentException ex)
         {
-            Console.WriteLine(ex.Message + " Tente novamente.");
-            Thread.Sleep(1500);
+            Console.WriteLine(ex.Message + Messages.AperteQualquerTecla);
+            Console.ReadKey();
+
             OperacaoSaque(cliente);
         }
         catch (InvalidOperationException ex)
         {
             Console.WriteLine(ex.Message);
-            Console.WriteLine($"Saldo atual: {cliente.Saldo}.");
+            Console.WriteLine($"\nSeu saldo atual é: {cliente.Saldo}.");
+            Console.WriteLine(Messages.AperteQualquerTeclaMenu);
+            Console.ReadKey();
         }
         catch (Exception ex)
         {
             Console.WriteLine(Messages.ErroInesperado);
+            Console.WriteLine(Messages.AperteQualquerTeclaMenu);
+            Console.ReadKey();
         }
         finally
         {
-            Thread.Sleep(2000);
             FluxoMenu(cliente);
         }
 
@@ -94,20 +99,23 @@ internal class Program
             _clienteService.Depositar(cliente);
             Console.Clear();
             Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo));
+            Thread.Sleep(1500);
         }
         catch (ArgumentException ex)
         {
-            Console.WriteLine(ex.Message + " Tente novamente.");
-            Thread.Sleep(1500);
+            Console.WriteLine(ex.Message + Messages.AperteQualquerTecla);
+            Console.ReadKey();
+
             OperacaoSaque(cliente);
         }
         catch (Exception ex)
         {
             Console.WriteLine(Messages.ErroInesperado);
+            Console.WriteLine(Messages.AperteQualquerTeclaMenu);
+            Console.ReadKey();
         }
         finally
         {
-            Thread.Sleep(1500);
             FluxoMenu(cliente);
         }
 
