@@ -1,8 +1,13 @@
 ﻿using Application;
-using Domain.Interfaces;
 using Domain.Model;
 using Microsoft.Extensions.DependencyInjection;
 using Application.Properties;
+using Domain.Interfaces.Services;
+using Domain.Extensions;
+using Domain.Interfaces.Repositories;
+using Repository;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Globalization;
 internal class Program
 {
     private readonly IClienteService _clienteService;
@@ -16,20 +21,60 @@ internal class Program
     {
         var serviceProvider = new ServiceCollection()
             .AddScoped<IClienteService, ClienteService>()
+            .AddScoped<IClienteRepository, ClienteRepository>()
             .AddScoped<ICalculo, Calculo>()
             .AddTransient<Program>()
             .BuildServiceProvider();
 
         var program = serviceProvider.GetService<Program>();
-        program.Run();
+
+        if(program is not null)
+            program.Run();  
     }
 
     public void Run()
     {
         ImprimeMensagemBoasVindas();
-        FluxoMenu(new Cliente());
+        var cliente = ObterDadosCliente();
+        FluxoMenu(cliente);
     }
 
+    private Cliente ObterDadosCliente()
+    {
+        do
+        {
+            string? inputId, inputNome, inputCpf, inputSaldo;
+
+            var erros = new HashSet<InputError>();
+
+            inputId = ObterInput("Identificador");
+            inputNome = ObterInput("Nome");
+            inputCpf = ObterInput("CPF");
+            inputSaldo = ObterInput("Saldo");
+
+            ValidatorModule.ValidarInputIdentificador(inputId, ref erros);
+            ValidatorModule.ValidarInputNome(inputCpf, ref erros);
+            ValidatorModule.ValidarInputCpf(inputCpf, ref erros);
+            ValidatorModule.ValidarInputSaldo(inputSaldo, ref erros);
+
+            if (!erros.Any())
+            {
+                var cliente = new Cliente
+                {
+                    Id = int.Parse(inputId!),
+                    Nome = inputNome!,
+                    Cpf = inputCpf!
+                };
+
+                cliente.AtualizarSaldo(decimal.Parse(inputSaldo!));
+                
+                return cliente;
+            }
+
+            ImprimirErros(erros);
+
+        } while (true);
+    }
     private void FluxoMenu(Cliente cliente)
     {
         ImprimeMenu(cliente.Nome);
@@ -51,33 +96,39 @@ internal class Program
                 break;
         }
     }
-
     private void OperacaoSaque(Cliente cliente)
     {
         Console.Clear();
 
         try
         {
-            _clienteService.Sacar(cliente);
+            decimal saque; string erro;
+            var inputSaque = ObterInput("Digite o valor para saque");
+            ValidatorModule.ValidarInputSaque(inputSaque, out saque, out erro);
+
+            if (erro != string.Empty)
+                throw new ArgumentException(erro);
+
+            _clienteService.Sacar(cliente, saque);
+
             Console.Clear();
-            Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo));
-            Thread.Sleep(1500);
+            Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo.ToString("C", new CultureInfo("pt-BR"))));
+            Thread.Sleep(3000);
         }
         catch (ArgumentException ex)
         {
-            Console.WriteLine(ex.Message + Messages.AperteQualquerTecla);
+            Console.WriteLine(string.Concat(ex.Message, " ", Messages.AperteQualquerTecla));
             Console.ReadKey();
-
             OperacaoSaque(cliente);
         }
         catch (InvalidOperationException ex)
         {
             Console.WriteLine(ex.Message);
-            Console.WriteLine($"\nSeu saldo atual é: {cliente.Saldo}.");
+            Console.WriteLine($"\nSeu saldo atual é: {cliente.Saldo.ToString("C", new CultureInfo("pt-BR"))}.");
             Console.WriteLine(Messages.AperteQualquerTeclaMenu);
             Console.ReadKey();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Console.WriteLine(Messages.ErroInesperado);
             Console.WriteLine(Messages.AperteQualquerTeclaMenu);
@@ -89,26 +140,32 @@ internal class Program
         }
 
     }
-
     private void OperacaoDeposito(Cliente cliente)
     {
         Console.Clear();
 
         try
         {
-            _clienteService.Depositar(cliente);
+            decimal deposito; string erro;
+            var inputDeposito = ObterInput("Digite o valor para deposito");
+            ValidatorModule.ValidarInputDeposito(inputDeposito, out deposito, out erro);
+
+            if (erro != string.Empty) 
+                throw new ArgumentException(erro);
+
+            _clienteService.Depositar(cliente, deposito);
+
             Console.Clear();
-            Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo));
-            Thread.Sleep(1500);
+            Console.WriteLine(string.Format(Messages.OperacaoConcluida, cliente.Saldo.ToString("C", new CultureInfo("pt-BR"))));
+            Thread.Sleep(3000);
         }
         catch (ArgumentException ex)
         {
-            Console.WriteLine(ex.Message + Messages.AperteQualquerTecla);
+            Console.WriteLine(string.Concat(ex.Message, " ", Messages.AperteQualquerTecla));
             Console.ReadKey();
-
-            OperacaoSaque(cliente);
+            OperacaoDeposito(cliente);
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             Console.WriteLine(Messages.ErroInesperado);
             Console.WriteLine(Messages.AperteQualquerTeclaMenu);
@@ -120,7 +177,15 @@ internal class Program
         }
 
     }
-
+    private void ImprimirErros(IEnumerable<InputError> erros)
+    {
+        Console.Clear();
+        Console.WriteLine(string.Join("\n", erros));
+        Console.WriteLine("\n");
+        Console.WriteLine(Messages.AperteQualquerTecla);
+        Console.ReadKey();
+        Console.Clear();
+    }
     private void ImprimeMensagemBoasVindas()
     {
         Console.Clear();
@@ -136,5 +201,11 @@ internal class Program
         Console.WriteLine($"3 - Sair");
         Console.WriteLine($"----------");
         Console.WriteLine($"Selecione uma opção:\t");
+    }
+    private string? ObterInput(string nomeInput)
+    {
+        Console.WriteLine(nomeInput + ":");
+        var input = Console.ReadLine();
+        return input;
     }
 }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Application.Properties {
+namespace Domain.Properties {
     using System;
     
     
@@ -22,24 +22,24 @@ namespace Application.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Messages {
+    internal class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Messages() {
+        internal Resources() {
         }
         
         /// <summary>
         ///   Retorna a instância de ResourceManager armazenada em cache usada por essa classe.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Resources.ResourceManager ResourceManager {
+        internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Application.Properties.Messages", typeof(Messages).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace Application.Properties {
         ///   pesquisas de recursos que usam essa classe de recurso de tipo de alta segurança.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        public static global::System.Globalization.CultureInfo Culture {
+        internal static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,56 +61,56 @@ namespace Application.Properties {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Aperte qualquer tecla para tentar novamente..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a CPF digitado não é válido..
         /// </summary>
-        public static string AperteQualquerTecla {
+        internal static string CpfInvalido {
             get {
-                return ResourceManager.GetString("AperteQualquerTecla", resourceCulture);
+                return ResourceManager.GetString("CpfInvalido", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Aperte qualquer tecla para voltar ao menu de opções..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Deposito não é válido..
         /// </summary>
-        public static string AperteQualquerTeclaMenu {
+        internal static string DepositoInvalido {
             get {
-                return ResourceManager.GetString("AperteQualquerTeclaMenu", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Erro inesperado. Tente novamente mais tarde..
-        /// </summary>
-        public static string ErroInesperado {
-            get {
-                return ResourceManager.GetString("ErroInesperado", resourceCulture);
+                return ResourceManager.GetString("DepositoInvalido", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a Identificador não é válido..
         /// </summary>
-        public static string IdentificadorInvalido {
+        internal static string IdentificadorInvalido {
             get {
                 return ResourceManager.GetString("IdentificadorInvalido", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Operação concluida. Saldo atual: {0}..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Nome deve ser preenchido..
         /// </summary>
-        public static string OperacaoConcluida {
+        internal static string NomeInvalido {
             get {
-                return ResourceManager.GetString("OperacaoConcluida", resourceCulture);
+                return ResourceManager.GetString("NomeInvalido", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a Valor deve ser maior que zero..
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Saldo não é válido..
         /// </summary>
-        public static string ValorMaiorQueZero {
+        internal static string SaldoInvalido {
             get {
-                return ResourceManager.GetString("ValorMaiorQueZero", resourceCulture);
+                return ResourceManager.GetString("SaldoInvalido", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a Saque não é válido..
+        /// </summary>
+        internal static string SaqueInvalido {
+            get {
+                return ResourceManager.GetString("SaqueInvalido", resourceCulture);
             }
         }
     }

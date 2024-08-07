@@ -1,5 +1,6 @@
 ﻿using Application.Properties;
-using Domain.Interfaces;
+using Domain.Interfaces.Repositories;
+using Domain.Interfaces.Services;
 using Domain.Model;
 
 namespace Application
@@ -7,40 +8,47 @@ namespace Application
     public class ClienteService : IClienteService
     {
         private readonly ICalculo _calculo;
-        public ClienteService(ICalculo calculo)
+        private readonly IClienteRepository _clienteRepository;
+        public ClienteService(
+            ICalculo calculo,
+            IClienteRepository clienteRepository)
         {
             _calculo = calculo;
+            _clienteRepository = clienteRepository;
         }
 
-        public void Sacar(Cliente cliente)
+        public void Sacar(Cliente cliente, decimal valorSaque)
         {
-            Console.WriteLine($"Digite o valor para saque:");
-            var valorSaque = cliente.ObterInputSaque();
-            var saldo = cliente.Saldo;
-
             if (valorSaque < 0)
                 throw new ArgumentException(Messages.ValorMaiorQueZero);
 
+            var saldo = cliente.Saldo;
+            
             if (valorSaque > saldo)
                 throw new InvalidOperationException("Saldo insuficiente.");
 
             var balanco = _calculo.Subtracao(saldo, valorSaque);
 
             cliente.AtualizarSaldo(balanco);
+
+            _clienteRepository.AtualizarSaldo(cliente);
         }
 
-        public void Depositar(Cliente cliente)
+        public void Depositar(Cliente cliente, decimal valorDeposito)
         {
-            Console.WriteLine($"Digite o valor para deposito:");
-            var valorDeposito = cliente.ObterInputDeposito();
-            var saldo = cliente.Saldo;
-
             if (valorDeposito < 0)
                 throw new ArgumentException(Messages.ValorMaiorQueZero);
 
+            var saldo = cliente.Saldo;
             var balanco = _calculo.Soma(saldo, valorDeposito);
 
             cliente.AtualizarSaldo(balanco);
+            _clienteRepository.AtualizarSaldo(cliente);
+        }
+
+        public Cliente? ObterPorIdentificador(string identificador)
+        {
+            return _clienteRepository.ObterPorIdentificador(identificador);
         }
     }
 }

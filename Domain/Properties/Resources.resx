@@ -117,22 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AperteQualquerTecla" xml:space="preserve">
-    <value>Aperte qualquer tecla para tentar novamente.</value>
+  <data name="CpfInvalido" xml:space="preserve">
+    <value>CPF digitado não é válido.</value>
   </data>
-  <data name="AperteQualquerTeclaMenu" xml:space="preserve">
-    <value>Aperte qualquer tecla para voltar ao menu de opções.</value>
-  </data>
-  <data name="ErroInesperado" xml:space="preserve">
-    <value>Erro inesperado. Tente novamente mais tarde.</value>
+  <data name="DepositoInvalido" xml:space="preserve">
+    <value>Deposito não é válido.</value>
   </data>
   <data name="IdentificadorInvalido" xml:space="preserve">
     <value>Identificador não é válido.</value>
   </data>
-  <data name="OperacaoConcluida" xml:space="preserve">
-    <value>Operação concluida. Saldo atual: {0}.</value>
+  <data name="NomeInvalido" xml:space="preserve">
+    <value>Nome deve ser preenchido.</value>
   </data>
-  <data name="ValorMaiorQueZero" xml:space="preserve">
-    <value>Valor deve ser maior que zero.</value>
+  <data name="SaldoInvalido" xml:space="preserve">
+    <value>Saldo não é válido.</value>
+  </data>
+  <data name="SaqueInvalido" xml:space="preserve">
+    <value>Saque não é válido.</value>
   </data>
 </root>

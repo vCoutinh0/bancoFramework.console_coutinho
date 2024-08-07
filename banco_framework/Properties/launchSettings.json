@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "bancoframework.console": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "SQLSERVER_CONNECTION_STRING": "Server=usr;Database=master;Trusted_Connection=True;Encrypt=True;TrustServerCertificate=True;"
+      }
+    }
+  }
+}
