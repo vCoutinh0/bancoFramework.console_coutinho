@@ -58,14 +58,14 @@ namespace Domain.Extensions
             }
         }
 
-        public static void ValidarInputSaque(string? input, out decimal deposito, out string erro)
+        public static void ValidarInputSaque(string? input, out decimal saque, out string erro)
         {
-            erro = Resources.SaldoInvalido;
-            deposito = -1;
+            erro = Resources.SaqueInvalido;
+            saque = -1;
 
             if (decimal.TryParse(input, out decimal valor) & valor > 0)
             {
-                deposito = valor;
+                saque = valor;
                 erro = string.Empty;
             }
         }
