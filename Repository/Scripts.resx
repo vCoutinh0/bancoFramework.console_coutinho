@@ -122,13 +122,25 @@
 SET Saldo = @saldo
 where Id = @identificador</value>
   </data>
+  <data name="InserirCliente" xml:space="preserve">
+    <value>INSERT INTO Cliente
+           (Id
+           ,Nome
+           ,CPF
+           ,Saldo)
+     VALUES
+           (@identificador
+           ,@nome
+           ,@cpf
+           ,@saldo)</value>
+  </data>
   <data name="ObterPorIdentificador" xml:space="preserve">
-    <value>select 
+    <value>SELECT 
 	Id,
 	Nome,
 	CPF,
 	Saldo 
-from Cliente
-where Id = @Identificador</value>
+FROM Cliente
+WHERE Id = @identificador</value>
   </data>
 </root>

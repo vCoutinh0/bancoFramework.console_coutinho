@@ -23,7 +23,7 @@ namespace Repository
         protected T? QuerySingleOrDefault(string sql, object? parameters = null)
         {
             using IDbConnection connection = CreateSqlConnection();
-            return connection.QuerySingleOrDefault(sql, parameters);
+            return connection.QuerySingleOrDefault<T>(sql, parameters);
         }
     }
 }

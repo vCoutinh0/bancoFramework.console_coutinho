@@ -62,8 +62,8 @@ namespace Repository {
         
         /// <summary>
         ///   Consulta uma cadeia de caracteres localizada semelhante a UPDATE Cliente
-        ///SET Saldo = @Saldo
-        ///where Id = @Identificador.
+        ///SET Saldo = @saldo
+        ///where Id = @identificador.
         /// </summary>
         internal static string AtualizarSaldo {
             get {
@@ -72,13 +72,31 @@ namespace Repository {
         }
         
         /// <summary>
-        ///   Consulta uma cadeia de caracteres localizada semelhante a select 
+        ///   Consulta uma cadeia de caracteres localizada semelhante a INSERT INTO Cliente
+        ///           (Id
+        ///           ,Nome
+        ///           ,CPF
+        ///           ,Saldo)
+        ///     VALUES
+        ///           (@identificador
+        ///           ,@nome
+        ///           ,@cpf
+        ///           ,@saldo).
+        /// </summary>
+        internal static string InserirCliente {
+            get {
+                return ResourceManager.GetString("InserirCliente", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta uma cadeia de caracteres localizada semelhante a SELECT 
         ///	Id,
         ///	Nome,
         ///	CPF,
         ///	Saldo 
-        ///from Cliente
-        ///where Id = @Identificador.
+        ///FROM Cliente
+        ///WHERE Id = @identificador.
         /// </summary>
         internal static string ObterPorIdentificador {
             get {

@@ -17,6 +17,11 @@ namespace Application
             _clienteRepository = clienteRepository;
         }
 
+        public void Inserir(Cliente cliente)
+        {
+            _clienteRepository.Inserir(cliente);
+        }
+
         public void Sacar(Cliente cliente, decimal valorSaque)
         {
             if (valorSaque < 0)

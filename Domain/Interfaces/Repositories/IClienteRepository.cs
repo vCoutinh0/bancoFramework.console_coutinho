@@ -6,5 +6,6 @@ namespace Domain.Interfaces.Repositories
     {
         Cliente? ObterPorIdentificador(string identificador);
         void AtualizarSaldo(Cliente cliente);
+        void Inserir(Cliente cliente);
     }
 }

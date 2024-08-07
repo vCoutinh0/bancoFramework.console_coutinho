@@ -48,18 +48,28 @@ internal class Program
             var erros = new HashSet<InputError>();
 
             inputId = ObterInput("Identificador");
+
+            ValidatorModule.ValidarInputIdentificador(inputId, ref erros);
+
+            if (erros.Any())
+                ImprimirErros(erros);
+
+            var cliente = _clienteService.ObterPorIdentificador(inputId);
+
+            if (cliente is not null)
+                return cliente;
+
             inputNome = ObterInput("Nome");
             inputCpf = ObterInput("CPF");
             inputSaldo = ObterInput("Saldo");
 
-            ValidatorModule.ValidarInputIdentificador(inputId, ref erros);
             ValidatorModule.ValidarInputNome(inputCpf, ref erros);
             ValidatorModule.ValidarInputCpf(inputCpf, ref erros);
             ValidatorModule.ValidarInputSaldo(inputSaldo, ref erros);
 
             if (!erros.Any())
             {
-                var cliente = new Cliente
+                cliente = new Cliente
                 {
                     Id = int.Parse(inputId!),
                     Nome = inputNome!,
@@ -67,13 +77,18 @@ internal class Program
                 };
 
                 cliente.AtualizarSaldo(decimal.Parse(inputSaldo!));
-                
+                SalvarDadosCliente(cliente);
+
                 return cliente;
             }
 
             ImprimirErros(erros);
 
         } while (true);
+    }
+    private void SalvarDadosCliente(Cliente cliente)
+    {
+        _clienteService.Inserir(cliente);
     }
     private void FluxoMenu(Cliente cliente)
     {

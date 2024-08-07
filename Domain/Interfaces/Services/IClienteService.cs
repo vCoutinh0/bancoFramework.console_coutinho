@@ -7,5 +7,6 @@ namespace Domain.Interfaces.Services
         Cliente? ObterPorIdentificador(string identificador);
         void Sacar(Cliente cliente, decimal valorSaque);
         void Depositar(Cliente cliente, decimal valorDeposito);
+        void Inserir(Cliente cliente);
     }
 }
